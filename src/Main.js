@@ -25,7 +25,7 @@ const config = {
             let centerY = this.cameras.main.centerY;
             let startY = this.cameras.main.height + 50;
 
-            this.add.text(centerX, centerY / 2, 'Welcome to SkillRocket!', { fontSize: '48px', color: '#ffffff' })
+            this.add.text(centerX, centerY / 2, 'Welcome to SkillRocket!!!', { fontSize: '48px', color: '#ffffff' })
                 .setOrigin(0.5, 0.5); // Center the text horizontally and vertically
 
             // Create the button text
