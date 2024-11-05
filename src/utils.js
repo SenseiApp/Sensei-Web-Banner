@@ -1,5 +1,3 @@
-import { bucketBaseUrl } from "./main";
-
 const updateShipTexture = (ship, shipID) => {
     ship.setTexture(`${bucketBaseUrl}/General/Assets/Ships/${shipID}.png`);
 };

@@ -1,11 +1,4 @@
-import {
-    createButton,
-    createShip,
-    createShipTrail
-} from './utils.js';
-
-export const bucketBaseUrl = "https://cdn.cloudcompany.ca/websrc";
-let ship = null;
+const bucketBaseUrl = "https://cdn.cloudcompany.ca/websrc";
 
 const config = {
     type: Phaser.AUTO,
