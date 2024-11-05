@@ -1,3 +1,9 @@
+import { bucketBaseUrl } from "./main";
+
+const updateShipTexture = (ship, shipID) => {
+    ship.setTexture(`${bucketBaseUrl}/General/Assets/Ships/${shipID}.png`);
+};
+
 function createButton(scene, x, y, textContent, options = {}) {
     const defaultOptions = {
         fontSize: 32,
@@ -106,7 +112,7 @@ function createShipTrail(scene, ship, trailFrequency = 100) {
         const particle = scene.add.graphics();
         particle.fillStyle(0xffffff, 0.7);
         particle.fillCircle(0, 0, 4);
-        particle.x = ship.x - ship.width / 3.5;
+        particle.x = ship.x - ship.width / 3.75;
         const randomYOffset = Math.random() * 10 - 5;
         particle.y = (ship.y - 7.5) + randomYOffset;
         particle.setDepth(1);

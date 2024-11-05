@@ -1,4 +1,11 @@
-const bucketBaseUrl = "https://cdn.cloudcompany.ca/websrc";
+import {
+    createButton,
+    createShip,
+    createShipTrail
+} from './utils.js';
+
+export const bucketBaseUrl = "https://cdn.cloudcompany.ca/websrc";
+let ship = null;
 
 const config = {
     type: Phaser.AUTO,
@@ -37,7 +44,7 @@ const config = {
                 url: 'https://ark-prod-nuxt-container.bravedune-c7e139af.eastus.azurecontainerapps.io/'
             });
 
-            const ship = createShip(this, centerX, centerY);
+            this.ship = createShip(this, centerX, centerY);
 
             button.on('pointerup', () => {
                 button.setScale(1);
@@ -48,10 +55,10 @@ const config = {
                     duration: 1000,
                     onComplete: () => {
                         this.tweens.add({
-                            targets: ship,
+                            targets: this.ship,
                             alpha: 1,
                         });
-                        createShipTrail(this, ship);
+                        createShipTrail(this, this.ship);
                         button.destroy();
                     }
                 });
