@@ -50,13 +50,6 @@ function createButton(scene, x, y, textContent, options = {}) {
         buttonContainer.setScale(0.95);
     });
 
-    buttonContainer.on('pointerup', () => {
-        buttonContainer.setScale(1);
-        if (config.url) {
-            window.location.href = config.url;
-        }
-    });
-
     buttonContainer.on('pointerover', () => {
         buttonBackground.clear();
         buttonBackground
@@ -79,4 +72,63 @@ function createButton(scene, x, y, textContent, options = {}) {
     });
 
     return buttonContainer;
+}
+
+function createShip(scene, x, y) {
+    const ship = scene.add.image(x, y, 'ship');
+    ship.setAlpha(0);
+    ship.setScale(0.5);
+    tweenShip(scene, ship);
+    return ship;
+}
+
+const tweenShip = (scene, ship) => {
+    const tweenDuration = 5000 + Math.random() * 1000;
+    const tweenVerticalDistance = 5;
+
+    const tween = scene.tweens.add({
+        targets: ship,
+        y: ship.y + tweenVerticalDistance,
+        rotation: 0.05,
+        duration: tweenDuration,
+        ease: 'Power1.easeInOut',
+        yoyo: true,
+        repeat: -1,
+    });
+
+    return tween;
+};
+
+function createShipTrail(scene, ship, trailFrequency = 100) {
+    function createParticle() {
+        if (!ship || !ship.texture || !ship.visible) return;
+
+        const particle = scene.add.graphics();
+        particle.fillStyle(0xffffff, 0.7);
+        particle.fillCircle(0, 0, 4);
+        particle.x = ship.x - ship.width / 3.5;
+        const randomYOffset = Math.random() * 10 - 5;
+        particle.y = (ship.y - 7.5) + randomYOffset;
+        particle.setDepth(1);
+
+        scene.tweens.add({
+            targets: particle,
+            x: particle.x - 50,
+            alpha: 0,
+            duration: 500,
+            ease: 'Power1.easeOut',
+            onComplete: () => {
+                particle.destroy();
+            }
+        });
+    }
+
+    const timerEvent = scene.time.addEvent({
+        delay: trailFrequency,
+        callback: createParticle,
+        callbackScope: null,
+        loop: true
+    });
+
+    return timerEvent;
 }

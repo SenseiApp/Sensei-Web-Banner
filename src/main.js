@@ -1,3 +1,5 @@
+const bucketBaseUrl = "https://cdn.cloudcompany.ca/websrc";
+
 const config = {
     type: Phaser.AUTO,
     width: window.innerWidth,
@@ -7,7 +9,9 @@ const config = {
     physics: {
         default: 'matter',
         matter: {
-            gravity: { y: 0, x: 0.1 },
+            gravity: {
+                y: 0, x: 0
+            },
             debug: {
                 showBody: true,
                 showStaticBody: true
@@ -16,6 +20,7 @@ const config = {
     },
     scene: {
         preload: function () {
+            this.load.image('ship', `${bucketBaseUrl}/General/Assets/Ships/1.png`);
         },
         create: function () {
             let centerX = this.cameras.main.centerX;
@@ -30,6 +35,26 @@ const config = {
 
             const button = createButton(this, centerX, startY, 'Click Here', {
                 url: 'https://ark-prod-nuxt-container.bravedune-c7e139af.eastus.azurecontainerapps.io/'
+            });
+
+            const ship = createShip(this, centerX, centerY);
+
+            button.on('pointerup', () => {
+                button.setScale(1);
+                this.tweens.add({
+                    targets: button,
+                    alpha: 0,
+                    ease: 'Power1',
+                    duration: 1000,
+                    onComplete: () => {
+                        this.tweens.add({
+                            targets: ship,
+                            alpha: 1,
+                        });
+                        createShipTrail(this, ship);
+                        button.destroy();
+                    }
+                });
             });
 
             this.tweens.add({
