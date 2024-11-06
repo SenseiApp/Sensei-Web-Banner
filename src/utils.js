@@ -16,7 +16,6 @@ function createButton(scene, x, y, textContent, options = {}) {
         hoverFillAlpha: 0.8,
         fontFamily: 'Poppins',
         textColor: '#ffffff',
-        url: null,
         alpha: 1
     };
 

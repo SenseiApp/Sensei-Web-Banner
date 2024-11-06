@@ -40,9 +40,7 @@ const config = {
                 color: '#ffffff'
             }).setOrigin(0.5, 0.5);
 
-            const button = createButton(this, centerX, startY, 'Click Here', {
-                url: 'https://ark-prod-nuxt-container.bravedune-c7e139af.eastus.azurecontainerapps.io/'
-            });
+            const button = createButton(this, centerX, startY, 'Click Here', {});
 
             this.ship = createShip(this, centerX, centerY);
 
@@ -76,6 +74,13 @@ const config = {
                 console.log('shipIndex', this.shipIndex);
             });
 
+            const startButton = createButton(this, centerX, this.ship.y * 1.25, 'Start', { alpha: 0});
+
+            startButton.on('pointerdown', () => {
+                // window.location.href = 'https://ark-prod-nuxt-container.bravedune-c7e139af.eastus.azurecontainerapps.io/';
+                window.location.href = 'http://localhost:3000/?ship=' + this.shipIndex;
+            });
+
             button.on('pointerup', () => {
                 button.setScale(1);
                 this.tweens.add({
@@ -86,7 +91,7 @@ const config = {
                     onComplete: () => {
                         this.tweens.add({
                             targets: [this.ship, leftButton,
-                                rightButton],
+                                rightButton, startButton],
                             alpha: 1,
                         });
                         createShipTrail(this, this.ship);
