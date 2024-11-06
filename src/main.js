@@ -24,6 +24,7 @@ const config = {
             this.load.image('button', `${bucketBaseUrl}/General/UIElements/left_button.png`);
         },
         create: function () {
+            this.shipIndex = 6;
             let centerX = this.cameras.main.centerX;
             let centerY = this.cameras.main.centerY;
             let startY = this.cameras.main.height + 50;
@@ -52,10 +53,20 @@ const config = {
                 scale: 1.25
             });
             
+            leftButton.on('pointerdown', () => {
+                this.shipIndex = (this.shipIndex - 2 + 6) % 6 + 1;
+                console.log('shipIndex', this.shipIndex);
+            });
+            
             const rightButton = createSelectionButton(this, rightButtonX, centerY, {
                 direction: 'right',
                 alpha: 0,
                 scale: 1.25
+            });
+            
+            rightButton.on('pointerdown', () => {
+                this.shipIndex = (this.shipIndex) % 6 + 1;
+                console.log('shipIndex', this.shipIndex);
             });
 
             button.on('pointerup', () => {

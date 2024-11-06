@@ -93,6 +93,17 @@ function createSelectionButton(scene, x, y, options = {}) {
     button.rotation = config.direction === 'right' ? Math.PI : 0;
     button.setScale(config.scale);
     button.setInteractive({ useHandCursor: true });
+
+    button.on('pointerdown', () => {
+        scene.tweens.add({
+            targets: button,
+            scale: .975,
+            duration: 50,
+            ease: 'Linear',
+            yoyo: true
+        });
+    });
+
     return button;
 }
 
