@@ -1,5 +1,5 @@
 const updateShipTexture = (ship, shipID) => {
-    ship.setTexture(`${bucketBaseUrl}/General/Assets/Ships/${shipID}.png`);
+    ship.setTexture(`ship${shipID}`);
 };
 
 function createButton(scene, x, y, textContent, options = {}) {
@@ -108,7 +108,7 @@ function createSelectionButton(scene, x, y, options = {}) {
 }
 
 function createShip(scene, x, y) {
-    const ship = scene.add.image(x, y, 'ship');
+    const ship = scene.add.image(x, y, 'ship6');
     ship.setAlpha(0);
 
     const referenceWidth = 1920;

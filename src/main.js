@@ -20,7 +20,12 @@ const config = {
     },
     scene: {
         preload: function () {
-            this.load.image('ship', `${bucketBaseUrl}/General/Assets/Ships/1.png`);
+            this.load.image('ship1', `${bucketBaseUrl}/General/Assets/Ships/1.png`);
+            this.load.image('ship2', `${bucketBaseUrl}/General/Assets/Ships/2.png`);
+            this.load.image('ship3', `${bucketBaseUrl}/General/Assets/Ships/3.png`);
+            this.load.image('ship4', `${bucketBaseUrl}/General/Assets/Ships/4.png`);
+            this.load.image('ship5', `${bucketBaseUrl}/General/Assets/Ships/5.png`);
+            this.load.image('ship6', `${bucketBaseUrl}/General/Assets/Ships/6.png`);
             this.load.image('button', `${bucketBaseUrl}/General/UIElements/left_button.png`);
         },
         create: function () {
@@ -55,6 +60,7 @@ const config = {
             
             leftButton.on('pointerdown', () => {
                 this.shipIndex = (this.shipIndex - 2 + 6) % 6 + 1;
+                updateShipTexture(this.ship, this.shipIndex);
                 console.log('shipIndex', this.shipIndex);
             });
             
@@ -66,6 +72,7 @@ const config = {
             
             rightButton.on('pointerdown', () => {
                 this.shipIndex = (this.shipIndex) % 6 + 1;
+                updateShipTexture(this.ship, this.shipIndex);
                 console.log('shipIndex', this.shipIndex);
             });
 
