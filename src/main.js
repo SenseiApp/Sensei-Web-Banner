@@ -21,6 +21,7 @@ const config = {
     scene: {
         preload: function () {
             this.load.image('ship', `${bucketBaseUrl}/General/Assets/Ships/1.png`);
+            this.load.image('button', `${bucketBaseUrl}/General/UIElements/left_button.png`);
         },
         create: function () {
             let centerX = this.cameras.main.centerX;
@@ -39,6 +40,24 @@ const config = {
 
             this.ship = createShip(this, centerX, centerY);
 
+            const paddingPercentage = 0.2;
+
+            const shipWidth = this.ship.width * this.ship.scaleX;
+            const leftButtonX = centerX - (shipWidth / 2) - (paddingPercentage * this.cameras.main.width);
+            const rightButtonX = centerX + (shipWidth / 2) + (paddingPercentage * this.cameras.main.width);
+
+            const leftButton = createSelectionButton(this, leftButtonX, centerY, {
+                direction: 'left',
+                alpha: 0,
+                scale: 1.25
+            });
+            
+            const rightButton = createSelectionButton(this, rightButtonX, centerY, {
+                direction: 'right',
+                alpha: 0,
+                scale: 1.25
+            });
+
             button.on('pointerup', () => {
                 button.setScale(1);
                 this.tweens.add({
@@ -48,7 +67,8 @@ const config = {
                     duration: 1000,
                     onComplete: () => {
                         this.tweens.add({
-                            targets: this.ship,
+                            targets: [this.ship, leftButton,
+                                rightButton],
                             alpha: 1,
                         });
                         createShipTrail(this, this.ship);

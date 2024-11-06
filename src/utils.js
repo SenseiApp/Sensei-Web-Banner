@@ -16,7 +16,8 @@ function createButton(scene, x, y, textContent, options = {}) {
         hoverFillAlpha: 0.8,
         fontFamily: 'Poppins',
         textColor: '#ffffff',
-        url: null
+        url: null,
+        alpha: 1
     };
 
     const config = { ...defaultOptions, ...options };
@@ -75,16 +76,43 @@ function createButton(scene, x, y, textContent, options = {}) {
             .fillRoundedRect(-buttonWidth / 2, -buttonHeight / 2, buttonWidth, buttonHeight, config.borderRadius);
     });
 
+    buttonContainer.setAlpha(config.alpha);
     return buttonContainer;
+}
+
+function createSelectionButton(scene, x, y, options = {}) {
+    const defaultOptions = {
+        alpha: 1,
+        direction: 'left',
+        scale: 1
+    };
+    const config = { ...defaultOptions, ...options };
+
+    const button = scene.add.image(x, y, 'button');
+    button.setAlpha(config.alpha);
+    button.rotation = config.direction === 'right' ? Math.PI : 0;
+    button.setScale(config.scale);
+    button.setInteractive({ useHandCursor: true });
+    return button;
 }
 
 function createShip(scene, x, y) {
     const ship = scene.add.image(x, y, 'ship');
     ship.setAlpha(0);
-    ship.setScale(0.5);
+
+    const referenceWidth = 1920;
+    const referenceHeight = 1080;
+
+    const scaleFactorX = scene.cameras.main.width / referenceWidth;
+    const scaleFactorY = scene.cameras.main.height / referenceHeight;
+    const scaleFactor = Math.min(scaleFactorX, scaleFactorY);
+
+    ship.setScale(scaleFactor);
+
     tweenShip(scene, ship);
     return ship;
 }
+
 
 const tweenShip = (scene, ship) => {
     const tweenDuration = 5000 + Math.random() * 1000;
@@ -110,9 +138,14 @@ function createShipTrail(scene, ship, trailFrequency = 100) {
         const particle = scene.add.graphics();
         particle.fillStyle(0xffffff, 0.7);
         particle.fillCircle(0, 0, 4);
-        particle.x = ship.x - ship.width / 3.75;
+
+        const offsetPercentage = 0.075;
+        const shipWidth = ship.width * ship.scaleX;
+        const trailOffsetX = shipWidth * offsetPercentage;
+
+        particle.x = ship.x - (shipWidth / 2) + trailOffsetX;
         const randomYOffset = Math.random() * 10 - 5;
-        particle.y = (ship.y - 7.5) + randomYOffset;
+        particle.y = ship.y + randomYOffset;
         particle.setDepth(1);
 
         scene.tweens.add({
