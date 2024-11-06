@@ -147,14 +147,16 @@ function createShipTrail(scene, ship, trailFrequency = 100) {
 
         const particle = scene.add.graphics();
         particle.fillStyle(0xffffff, 0.7);
-        particle.fillCircle(0, 0, 4);
+
+        const particleSize = ship.height * 0.0125;
+        particle.fillCircle(0, 0, particleSize);
 
         const offsetPercentage = 0.075;
         const shipWidth = ship.width * ship.scaleX;
         const trailOffsetX = shipWidth * offsetPercentage;
 
-        particle.x = ship.x - (shipWidth / 2) + trailOffsetX;
-        const randomYOffset = Math.random() * 10 - 5;
+        particle.x = ship.x - (shipWidth / 1.75) + trailOffsetX;
+        const randomYOffset = Math.random() * 10 - 7.5;
         particle.y = ship.y + randomYOffset;
         particle.setDepth(1);
 
