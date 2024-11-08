@@ -6,6 +6,7 @@ const config = {
     height: window.innerHeight,
     parent: 'game-container',
     backgroundColor: '#1d1d1d',
+    transparent: true,
     physics: {
         default: 'matter',
         matter: {
