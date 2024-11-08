@@ -7,6 +7,20 @@ const config = {
     parent: 'game-container',
     backgroundColor: '#1d1d1d',
     transparent: true,
+    input: {
+        // Adjust input settings
+        mouse: {
+            preventDefaultDown: true,   // Keep default for clicks
+            preventDefaultUp: true,     // Keep default for clicks
+            preventDefaultMove: false,  // Allow move events to pass through
+            preventDefaultWheel: false, // Allow wheel events to pass through (scrolling)
+            preventDefaultOver: false,
+            preventDefaultOut: false
+        },
+        touch: {
+            preventDefault: false       // Allow touch events to pass through (for mobile scrolling)
+        }
+    },
     physics: {
         default: 'matter',
         matter: {
@@ -123,6 +137,11 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
+game.input.mouse.preventDefaultDown = true;
+game.input.mouse.preventDefaultUp = true;
+game.input.mouse.preventDefaultMove = false;
+game.input.mouse.preventDefaultWheel = false;
+game.input.touch.preventDefault = false;
 
 // Handle window resizing
 window.addEventListener('resize', () => {
