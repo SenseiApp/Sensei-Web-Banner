@@ -9,6 +9,9 @@ const config = {
     transparent: true,
     input: {
         // Adjust input settings
+        window: {
+            Events: ['MOUSE_DOWN', 'MOUSE_UP'],
+        },
         mouse: {
             preventDefaultDown: true,   // Keep default for clicks
             preventDefaultUp: true,     // Keep default for clicks
@@ -18,8 +21,9 @@ const config = {
             preventDefaultOut: false
         },
         touch: {
-            preventDefault: false       // Allow touch events to pass through (for mobile scrolling)
-        }
+            preventDefault: false,     // Allow default touch behavior
+            touchAction: 'pan-y',      // Allow vertical scrolling
+        },
     },
     physics: {
         default: 'matter',
@@ -41,21 +45,25 @@ const config = {
             this.load.image('ship4', `${bucketBaseUrl}/General/Assets/Ships/4.png`);
             this.load.image('ship5', `${bucketBaseUrl}/General/Assets/Ships/5.png`);
             this.load.image('ship6', `${bucketBaseUrl}/General/Assets/Ships/6.png`);
+            this.load.image('logo', `${bucketBaseUrl}/General/Assets/skillrocket_logo.png`);
             this.load.image('button', `${bucketBaseUrl}/General/UIElements/left_button.png`);
         },
         create: function () {
+            const hrefToWeb = true;
             this.shipIndex = 6;
             let centerX = this.cameras.main.centerX;
             let centerY = this.cameras.main.centerY;
             let startY = this.cameras.main.height + 50;
 
-            this.add.text(centerX, centerY / 2, 'Welcome to SkillRocket!!!', {
-                fontSize: '48px',
-                fontFamily: 'Poppins',
-                color: '#ffffff'
-            }).setOrigin(0.5, 0.5);
+            let viewportWidth = this.cameras.main.width;
+            let logoScale = viewportWidth / 1920;
+            logoScale = Phaser.Math.Clamp(logoScale, 0.3, 1);
 
-            const button = createButton(this, centerX, startY, 'Click Here', {});
+            this.add.image(centerX, centerY * .5, 'logo')
+                .setScale(logoScale)
+                .setOrigin(0.5, 0.5);
+
+            const button = createButton(this, centerX, startY, 'Get Started', {});
 
             this.ship = createShip(this, centerX, centerY);
 
@@ -70,26 +78,26 @@ const config = {
                 alpha: 0,
                 scale: 1.25
             });
-            
+
             leftButton.on('pointerdown', () => {
                 this.shipIndex = (this.shipIndex - 2 + 6) % 6 + 1;
                 updateShipTexture(this.ship, this.shipIndex);
                 console.log('shipIndex', this.shipIndex);
             });
-            
+
             const rightButton = createSelectionButton(this, rightButtonX, centerY, {
                 direction: 'right',
                 alpha: 0,
                 scale: 1.25
             });
-            
+
             rightButton.on('pointerdown', () => {
                 this.shipIndex = (this.shipIndex) % 6 + 1;
                 updateShipTexture(this.ship, this.shipIndex);
                 console.log('shipIndex', this.shipIndex);
             });
 
-            const startButton = createButton(this, centerX, this.ship.y * 1.25, 'Start', { alpha: 0});
+            const startButton = createButton(this, centerX, this.ship.y * 1.25, 'Start', { alpha: 0 });
 
             startButton.on('pointerdown', () => {
                 // window.location.href = 'https://ark-prod-nuxt-container.bravedune-c7e139af.eastus.azurecontainerapps.io/';
@@ -97,22 +105,26 @@ const config = {
             });
 
             button.on('pointerup', () => {
-                button.setScale(1);
-                this.tweens.add({
-                    targets: button,
-                    alpha: 0,
-                    ease: 'Power1',
-                    duration: 1000,
-                    onComplete: () => {
-                        this.tweens.add({
-                            targets: [this.ship, leftButton,
-                                rightButton, startButton],
-                            alpha: 1,
-                        });
-                        createShipTrail(this, this.ship);
-                        button.destroy();
-                    }
-                });
+                if (hrefToWeb) {
+                    window.location.href = 'https://ark-prod-nuxt-container.bravedune-c7e139af.eastus.azurecontainerapps.io/';
+                } else {
+                    button.setScale(1);
+                    this.tweens.add({
+                        targets: button,
+                        alpha: 0,
+                        ease: 'Power1',
+                        duration: 1000,
+                        onComplete: () => {
+                            this.tweens.add({
+                                targets: [this.ship, leftButton,
+                                    rightButton, startButton],
+                                alpha: 1,
+                            });
+                            createShipTrail(this, this.ship);
+                            button.destroy();
+                        }
+                    });
+                }
             });
 
             this.tweens.add({
@@ -137,11 +149,6 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-game.input.mouse.preventDefaultDown = true;
-game.input.mouse.preventDefaultUp = true;
-game.input.mouse.preventDefaultMove = false;
-game.input.mouse.preventDefaultWheel = false;
-game.input.touch.preventDefault = false;
 
 // Handle window resizing
 window.addEventListener('resize', () => {
