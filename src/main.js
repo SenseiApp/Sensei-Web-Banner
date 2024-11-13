@@ -100,13 +100,12 @@ const config = {
             const startButton = createButton(this, centerX, this.ship.y * 1.25, 'Start', { alpha: 0 });
 
             startButton.on('pointerdown', () => {
-                // window.location.href = 'https://ark-prod-nuxt-container.bravedune-c7e139af.eastus.azurecontainerapps.io/';
-                window.location.href = 'http://localhost:3000/?ship=' + this.shipIndex;
+                window.open('http://localhost:3000/?ship=' + this.shipIndex, '_blank');
             });
 
             button.on('pointerup', () => {
                 if (hrefToWeb) {
-                    window.location.href = 'https://ark-prod-nuxt-container.bravedune-c7e139af.eastus.azurecontainerapps.io/';
+                    window.open('https://ark-prod-nuxt-container.bravedune-c7e139af.eastus.azurecontainerapps.io/', '_blank');
                 } else {
                     button.setScale(1);
                     this.tweens.add({
