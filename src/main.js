@@ -56,14 +56,14 @@ const config = {
             let startY = this.cameras.main.height + 50;
 
             let viewportWidth = this.cameras.main.width;
-            let logoScale = viewportWidth / 1920;
+            let logoScale = viewportWidth / 2560;
             logoScale = Phaser.Math.Clamp(logoScale, 0.3, 1);
 
             this.add.image(centerX, centerY * .5, 'logo')
                 .setScale(logoScale)
                 .setOrigin(0.5, 0.5);
 
-            const button = createButton(this, centerX, startY, 'Get Started', {});
+            const button = createButton(this, centerX, startY, 'Start Today', {});
 
             this.ship = createShip(this, centerX, centerY);
 
