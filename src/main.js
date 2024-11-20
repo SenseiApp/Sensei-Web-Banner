@@ -13,16 +13,17 @@ const config = {
             Events: ['MOUSE_DOWN', 'MOUSE_UP'],
         },
         mouse: {
-            preventDefaultDown: true,   // Keep default for clicks
-            preventDefaultUp: true,     // Keep default for clicks
-            preventDefaultMove: false,  // Allow move events to pass through
-            preventDefaultWheel: false, // Allow wheel events to pass through (scrolling)
+            preventDefaultDown: true,
+            preventDefaultUp: true,  
+            preventDefaultMove: false,
+            preventDefaultWheel: false,
             preventDefaultOver: false,
             preventDefaultOut: false
         },
         touch: {
-            preventDefault: false,     // Allow default touch behavior
-            touchAction: 'pan-y',      // Allow vertical scrolling
+            preventDefault: false,
+            capture: false, 
+            touchAction: 'pan-y',
         },
     },
     physics: {
@@ -49,6 +50,7 @@ const config = {
             this.load.image('button', `${bucketBaseUrl}/General/UIElements/left_button.png`);
         },
         create: function () {
+
             const hrefToWeb = true;
             this.shipIndex = 6;
             let centerX = this.cameras.main.centerX;
